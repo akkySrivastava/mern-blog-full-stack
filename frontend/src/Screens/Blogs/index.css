@@ -1,0 +1,147 @@
+.blog {
+  background-color: white;
+}
+
+.blog__cardsContainer__vertical {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 60px;
+  width: 100%;
+}
+
+.blog__cards__carousel {
+  margin-top: 60px;
+}
+
+.blog__cards__carousel .react-multi-carousel-dot-list {
+  bottom: 10px;
+}
+
+.blog__cards__carousel .react-multi-carousel-track {
+  margin-bottom: 40px;
+}
+
+.blog__cards__carousel .react-multi-carousel-dot-list li button {
+  width: 10px !important;
+  height: 10px !important;
+  background-color: #afafaf;
+  border-color: #afafaf;
+}
+
+.blog__cards__carousel
+  .react-multi-carousel-dot-list
+  .react-multi-carousel-dot--active
+  button {
+  background-color: #f74b42;
+  border-color: #f74b42;
+}
+
+.blog__cards__carousel .course-carousel-icon-left {
+  top: unset !important;
+  bottom: 0 !important;
+  z-index: 2;
+  left: 7%;
+}
+
+.blog__cards__carousel .course-carousel-icon-right {
+  top: unset !important;
+  bottom: 0 !important;
+  z-index: 2;
+  right: 7%;
+}
+
+.blog__category {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 0;
+}
+
+.blog__categoryList {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  color: #626276;
+  padding: 0 0 10px 0;
+  width: 64%;
+  border-bottom: 1px solid #020122;
+}
+
+.blog__categoryList li {
+  /* margin: 0 20px; */
+  font-size: 20px;
+  /* font-weight: 500; */
+  cursor: pointer;
+}
+
+.blog__categoryList li.selected {
+  font-weight: 500;
+  color: #7d2ae8;
+}
+
+.blog__categoryMobile {
+  display: none;
+  width: 86%;
+  margin: 0 auto;
+  justify-content: space-between;
+  align-items: center;
+  padding: 40px 0;
+}
+
+.blog__categoryList__label {
+  color: #7d2ae8;
+  font-size: 12px;
+}
+
+.blog__categoryList__select {
+  background-color: #7c2ae817;
+  border-color: #7d2ae8;
+  font-size: 12px;
+  padding: 4px;
+  color: #7d2ae8;
+  outline: none;
+  box-shadow: none;
+  border-radius: 2px;
+}
+
+.blog__categoryList__select option {
+  width: 100%;
+  border: none;
+  box-shadow: none;
+}
+
+.blog__cardsContainer {
+  padding-bottom: 30px;
+  overflow: auto;
+  width: 86%;
+  margin: 0 auto;
+}
+
+@media all and (max-width: 1100px) {
+  .blog__categoryList li {
+    font-size: 16px;
+  }
+  .blog__categoryList {
+    width: 74%;
+  }
+}
+
+@media all and (max-width: 600px) {
+  .blog__categoryMobile {
+    display: flex;
+  }
+  .blog__category {
+    display: none;
+  }
+  .blog__cardsContainer {
+    width: 100%;
+  }
+  .blog__featured {
+    display: flex;
+  }
+  .blog__banner {
+    display: flex;
+  }
+}
