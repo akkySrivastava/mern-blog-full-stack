@@ -1,0 +1,166 @@
+.header {
+  display: flex;
+  border: calc(0 * var(--vp)) solid #707070;
+  opacity: 1;
+  padding: 0px calc(70 * var(--vp)) 0px calc(70 * var(--vp));
+  width: 100%;
+  background-color: #7c2ae8;
+  display: flex;
+  min-width: fit-content;
+  position: sticky;
+  top: 0;
+  box-shadow: 0px 0px 12px 0px #6722c0;
+  z-index: 1000;
+}
+
+.header-app {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.header-logo {
+  display: flex;
+  align-items: center;
+}
+
+.header-logo > img {
+  border-radius: 50%;
+  width: 50px;
+  object-fit: contain;
+  cursor: pointer;
+}
+
+.app-brand {
+  align-items: center;
+  margin-left: 20px;
+  font-size: 1.4rem;
+  font-weight: 600;
+  font-family: "Cedarville Cursive", cursive;
+  color: rgba(255, 255, 255, 0.965);
+}
+
+.header-navs {
+  display: flex;
+  align-items: center;
+}
+
+.header-nav {
+  font-family: "Poppins", sans-serif;
+  color: #fff;
+  font-weight: 500;
+  margin-left: calc(100 * var(--vp));
+}
+
+.header-nav > p {
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.header-nav > p:hover {
+  color: #5c24a5;
+}
+
+.nav-menu-icon {
+  display: flex;
+  align-items: center;
+}
+
+.nav-menu-icon > .MuiSvgIcon-root {
+  color: white !important;
+  font-size: xx-large;
+  cursor: pointer;
+}
+
+.nav-menu-icon > .MuiSvgIcon-root:hover {
+  color: #5c24a5;
+}
+
+@media all and (max-width: 600px) {
+  .header-nav {
+    display: none;
+  }
+}
+
+@media all and (min-width: 600px) {
+  .nav-menu-icon {
+    display: none;
+  }
+}
+
+@media all and (min-width: 600px) and (max-width: 950px) {
+  .app-brand {
+    display: none;
+  }
+}
+
+.side-navs {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  min-width: 100%;
+  overflow: hidden;
+  align-items: center;
+  background-color: #020120;
+  color: #ddd;
+  position: fixed;
+  z-index: 100;
+}
+
+.side-nav-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
+  padding: 50px calc(110 * var(--vp)) 50px calc(110 * var(--vp));
+}
+
+.side-nav-app {
+  display: flex;
+  align-items: center;
+}
+.side-nav-logo {
+  display: flex;
+  align-items: center;
+}
+
+.side-nav-logo > img {
+  border-radius: 50%;
+  width: 50px;
+  object-fit: contain;
+  cursor: pointer;
+}
+
+.side-nav-brand > p {
+  align-items: center;
+  margin-left: 20px;
+  font-size: 1.4rem;
+  font-weight: 600;
+  font-family: "Cedarville Cursive", cursive;
+  color: rgba(255, 255, 255, 0.965);
+  cursor: pointer;
+}
+
+.side-nav-close > .MuiSvgIcon-root {
+  font-size: calc(30 * var(--vm));
+  font-weight: 600;
+  cursor: pointer;
+}
+.side-nav-close > .MuiSvgIcon-root:hover {
+  color: #5c24a5;
+}
+
+.side-nav > p {
+  /* font-weight: 600; */
+  font-size: calc(15 * var(--vm));
+  font-family: "Montserrat", serif;
+  cursor: pointer;
+  margin: 0;
+  padding: 20px;
+}
+
+.side-nav > p:hover {
+  color: #5c24a5;
+}
