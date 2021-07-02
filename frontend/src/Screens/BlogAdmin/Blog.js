@@ -8,6 +8,18 @@ import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import axios from "axios";
+import LinearProgress from "@material-ui/core/LinearProgress";
+import { makeStyles } from "@material-ui/core/styles";
+import creds from "../../SecretKey.json";
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    width: "100%",
+    "& > * + *": {
+      marginTop: theme.spacing(2),
+    },
+  },
+}));
 
 function Blog({ allBlogs, allBlogAuthor, allBlogCategory }) {
   const [allBlog, setAllBlogs] = useState([]);
@@ -28,6 +40,8 @@ function Blog({ allBlogs, allBlogAuthor, allBlogCategory }) {
   const [blogBanner, setblogBanner] = useState(null);
   const [blogCardBanner, setblogCardBanner] = useState(null);
   const [blogBody, setBlogBody] = useState("");
+
+  const [loading, setLoading] = useState(false);
 
   const editBlog = (blog) => {
     settobeEditedBlog(blog);
@@ -88,48 +102,53 @@ function Blog({ allBlogs, allBlogAuthor, allBlogCategory }) {
   };
 
   const deleteBlog = async (blog) => {
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-    // delete file
+    if (
+      window.prompt("Enter secret key") ===
+      (`${process.env.SECRET_KEY_ADMIN}` || creds.SECRET_KEY_ADMIN)
+    ) {
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+      // delete file
 
-    // delete blog
-    if (window.confirm("Are you sure to delete this blog?")) {
+      // delete blog
+      if (window.confirm("Are you sure to delete this blog?")) {
+        await axios
+          .delete(`/api/blog/${blog._id}`, config)
+          .then((res) => {
+            console.log(res.data);
+            alert("Deleted Successfully !!");
+            return res.data;
+          })
+          .catch((err) => console.log(err));
+      }
+
       await axios
-        .delete(`/api/blog/${blog._id}`, config)
+        .delete(`/api/file/${blog.image?._id}`, config)
         .then((res) => {
           console.log(res.data);
-          alert("Deleted Successfully !!");
           return res.data;
         })
         .catch((err) => console.log(err));
+      await axios
+        .delete(`/api/file/${blog.cardImage?._id}`, config)
+        .then((res) => {
+          console.log(res.data);
+          return res.data;
+        })
+        .catch((err) => console.log(err));
+    } else {
+      alert("You are not allowed!!! Contact admin");
     }
-
-    // await axios
-    //   .delete(`/api/file/${blog.image?._id}`, config)
-    //   .then((res) => {
-    //     console.log(res.data);
-    //     return res.data;
-    //   })
-    //   .catch((err) => console.log(err));
-    // await axios
-    //   .delete(`/api/file/${blog.cardImage?._id}`, config)
-    //   .then((res) => {
-    //     console.log(res.data);
-    //     return res.data;
-    //   })
-    //   .catch((err) => console.log(err));
   };
 
   const submitData = async () => {
-    const userInfo = localStorage.getItem("userInfo");
-    const token = userInfo ? JSON.parse(userInfo).token : "";
+    setLoading(true);
     const config = {
       headers: {
         "Content-Type": "application/json",
-        authorization: token,
       },
     };
 
@@ -153,12 +172,13 @@ function Blog({ allBlogs, allBlogAuthor, allBlogCategory }) {
             console.log(res);
             var newAllBlogs = [...allBlogs];
             for (var i in newAllBlogs) {
-              if (newAllBlogs[i]._id == tobeEditedBlog._id) {
+              if (newAllBlogs[i]._id === tobeEditedBlog._id) {
                 newAllBlogs[i] = tobeEditedBlog;
                 break;
               }
             }
             setAllBlogs(newAllBlogs);
+            setLoading(false);
             goBack();
           });
       } else {
@@ -176,45 +196,45 @@ function Blog({ allBlogs, allBlogAuthor, allBlogCategory }) {
 
         console.log(tobeEditedBlog);
 
-        // if (blogBanner !== null) {
-        //   console.log("update blog banner");
-        //   await axios
-        //     .delete(`/api/file/${tobeEditedBlog.image?._id}`, config)
-        //     .then((res) => {
-        //       console.log(res.data);
-        //       return res.data;
-        //     })
-        //     .catch((err) => console.log(err));
+        if (blogBanner !== null) {
+          console.log("update blog banner");
+          await axios
+            .delete(`/api/file/${tobeEditedBlog.image?._id}`, config)
+            .then((res) => {
+              console.log(res.data);
+              return res.data;
+            })
+            .catch((err) => console.log(err));
 
-        //   const formData = new FormData();
-        //   formData.append("files", blogBanner);
-        //   const fileID = await axios
-        //     .post("/api/file", formData, config)
-        //     .then((res) => res.data.fileId)
-        //     .catch((error) => console.log(error));
+          const formData = new FormData();
+          formData.append("files", blogBanner);
+          const fileID = await axios
+            .post("/api/file", formData, config)
+            .then((res) => res.data.fileId)
+            .catch((error) => console.log(error));
 
-        //   body.blogBanner = fileID;
-        // }
+          body.blogBanner = fileID;
+        }
 
-        // if (blogCardBanner !== null) {
-        //   console.log("update blog  card banner");
-        //   await axios
-        //     .delete(`/api/file/${tobeEditedBlog.cardImage?._id}`, config)
-        //     .then((res) => {
-        //       console.log(res.data);
-        //       return res.data;
-        //     })
-        //     .catch((err) => console.log(err));
+        if (blogCardBanner !== null) {
+          console.log("update blog  card banner");
+          await axios
+            .delete(`/api/file/${tobeEditedBlog.cardImage?._id}`, config)
+            .then((res) => {
+              console.log(res.data);
+              return res.data;
+            })
+            .catch((err) => console.log(err));
 
-        //   const _formData = new FormData();
-        //   _formData.append("files", blogCardBanner);
-        //   const fileIDCard = await axios
-        //     .post("/api/file", _formData, config)
-        //     .then((res) => res.data.fileId)
-        //     .catch((error) => console.log(error));
+          const _formData = new FormData();
+          _formData.append("files", blogCardBanner);
+          const fileIDCard = await axios
+            .post("/api/file", _formData, config)
+            .then((res) => res.data.fileId)
+            .catch((error) => console.log(error));
 
-        //   body.blogCardBanner = fileIDCard;
-        // }
+          body.blogCardBanner = fileIDCard;
+        }
 
         axios
           .put(`/api/blog/${tobeEditedBlog._id}`, body, config)
@@ -228,26 +248,27 @@ function Blog({ allBlogs, allBlogAuthor, allBlogCategory }) {
               }
             }
             setAllBlogs(newAllBlogs);
+            setLoading(false);
             alert("Updated Successfully!!");
             goBack();
           });
       }
       alert("Updated Successfully!!");
     } else {
-      //   new
-      // const formData = new FormData();
-      // formData.append("files", blogBanner);
-      // const fileID = await axios
-      //   .post("/api/file", formData, config)
-      //   .then((res) => res.data.fileId)
-      //   .catch((error) => console.log(error));
+      // new
+      const formData = new FormData();
+      formData.append("files", blogBanner);
+      const fileID = await axios
+        .post("/api/file", formData, config)
+        .then((res) => res.data.fileId)
+        .catch((error) => console.log(error));
 
-      // const _formData = new FormData();
-      // _formData.append("files", blogCardBanner);
-      // const fileIDCard = await axios
-      //   .post("/api/file", _formData, config)
-      //   .then((res) => res.data.fileId)
-      //   .catch((error) => console.log(error));
+      const _formData = new FormData();
+      _formData.append("files", blogCardBanner);
+      const fileIDCard = await axios
+        .post("/api/file", _formData, config)
+        .then((res) => res.data.fileId)
+        .catch((error) => console.log(error));
 
       const body = {
         blogTitle,
@@ -257,12 +278,13 @@ function Blog({ allBlogs, allBlogAuthor, allBlogCategory }) {
         blogDate,
         blogBody,
         blogAuthor,
-        // blogBanner: fileID,
-        // blogCardBanner: fileIDCard,
+        blogBanner: fileID,
+        blogCardBanner: fileIDCard,
       };
 
       axios.post("/api/blog", body, config).then((res) => {
         console.log(res);
+        setLoading(false);
         alert("Added Successfully !!");
         goBack();
       });
@@ -292,6 +314,7 @@ function Blog({ allBlogs, allBlogAuthor, allBlogCategory }) {
     setBlogCategory(_blogCategoryArray);
   };
 
+  const classes = useStyles();
   return (
     <div className="blog-admin">
       {showEditForm ? (
@@ -299,6 +322,8 @@ function Blog({ allBlogs, allBlogAuthor, allBlogCategory }) {
           <div className="form-container-top" onClick={goBack}>
             <ArrowBackIcon />
           </div>
+          {loading && <LinearProgress className={classes.root} />}
+
           <div className="form-container-body">
             <div className="form-content">
               <div className="form-title">

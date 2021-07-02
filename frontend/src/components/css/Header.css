@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
 .header {
   display: flex;
   border: calc(0 * var(--vp)) solid #707070;
@@ -163,4 +165,28 @@
 
 .side-nav > p:hover {
   color: #5c24a5;
+}
+
+.side-nav-socials {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.side-nav-social {
+  display: flex;
+  margin: 10px;
+}
+
+.side-nav-social > img {
+  width: 40px;
+  padding: 5px;
+  filter: invert(1);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.side-nav-social > img:hover {
+  border: 1px solid #020120;
 }

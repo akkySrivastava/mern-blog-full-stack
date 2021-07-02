@@ -204,7 +204,11 @@ function SingleBlog() {
         >
           {singleB.blogTitle}
         </h1>
-        <img className="singleBlog__banner" alt="" src=""></img>
+        <img
+          className="singleBlog__banner"
+          alt=""
+          src={singleB?.image?.filePath}
+        ></img>
         <div className="singleBlog__body">
           {ReactHTMLparser(singleB.blogBody)}
         </div>
@@ -253,7 +257,7 @@ function SingleBlog() {
 
         <div className="singleBlog__author">
           <div class="singleBlog__authorImage">
-            <img src="" alt="" />
+            <img src={singleB.author?.authorImageURL} alt="" />
           </div>
           <div class="singleBlog__author__data">
             <p

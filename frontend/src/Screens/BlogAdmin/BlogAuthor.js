@@ -6,6 +6,18 @@ import add from "./img/add.png";
 import "./css/BlogAuthor.css";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import axios from "axios";
+import LinearProgress from "@material-ui/core/LinearProgress";
+import { makeStyles } from "@material-ui/core/styles";
+import creds from "../../SecretKey.json";
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    width: "100%",
+    "& > * + *": {
+      marginTop: theme.spacing(2),
+    },
+  },
+}));
 
 function BlogAuthor({ allBlogAuthor, getUpdatedAuthors }) {
   const [showAuthor, setShowAuthor] = useState(false);
@@ -17,6 +29,7 @@ function BlogAuthor({ allBlogAuthor, getUpdatedAuthors }) {
   const [description, setDescription] = useState("");
   const [authorImage, setAuthorImage] = useState(null);
   const [name, setName] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleBlogAuthorUpload = (e) => {
     if (e.target.files[0]) {
@@ -54,6 +67,7 @@ function BlogAuthor({ allBlogAuthor, getUpdatedAuthors }) {
   };
 
   const submitData = async () => {
+    setLoading(true);
     const config = {
       headers: {
         "Content-Type": "application/json",
@@ -74,6 +88,7 @@ function BlogAuthor({ allBlogAuthor, getUpdatedAuthors }) {
           .then((res) => {
             console.log(res);
             getUpdatedAuthors();
+            setLoading(false);
             alert("Updated successfully !!");
             goBack();
           });
@@ -86,31 +101,32 @@ function BlogAuthor({ allBlogAuthor, getUpdatedAuthors }) {
           description,
         };
 
-        // if (authorImage !== null) {
-        //   console.log("update author image");
+        if (authorImage !== null) {
+          console.log("update author image");
 
-        //   await axios
-        //     .delete(`/api/file/${tobeEditedBlogAuthor.image?._id}`, config)
-        //     .then((res) => {
-        //       console.log(res.data);
-        //       return res.data;
-        //     })
-        //     .catch((err) => console.log(err));
-        // }
+          await axios
+            .delete(`/api/file/${tobeEditedBlogAuthor.image?._id}`, config)
+            .then((res) => {
+              console.log(res.data);
+              return res.data;
+            })
+            .catch((err) => console.log(err));
+        }
 
-        // const formData = new FormData();
-        // formData.append("files", authorImage);
-        // const fileID = await axios
-        //   .post("/api/file", formData, config)
-        //   .then((res) => res.data.fileId)
-        //   .catch((error) => console.log(error));
+        const formData = new FormData();
+        formData.append("files", authorImage);
+        const fileID = await axios
+          .post("/api/file", formData, config)
+          .then((res) => res.data.fileId)
+          .catch((error) => console.log(error));
 
-        // body.authorImage = fileID;
+        body.authorImage = fileID;
 
         axios
           .put(`/api/blogauthor/${tobeEditedBlogAuthor._id}`, body, config)
           .then((res) => {
             console.log(res);
+            setLoading(false);
             getUpdatedAuthors();
             alert("Updated successfully !!");
             goBack();
@@ -118,23 +134,24 @@ function BlogAuthor({ allBlogAuthor, getUpdatedAuthors }) {
       }
     } else {
       //   new
-      // const formData = new FormData();
-      // formData.append("files", authorImage);
-      // const fileID = await axios
-      //   .post("/api/file", formData, config)
-      //   .then((res) => res.data.fileId)
-      //   .catch((error) => ({ message: "Error" }));
+      const formData = new FormData();
+      formData.append("files", authorImage);
+      const fileID = await axios
+        .post("/api/file", formData, config)
+        .then((res) => res.data.fileId)
+        .catch((error) => ({ message: "Error" }));
 
       const body = {
         name,
         date,
         description,
-        // authorImage: fileID,
+        authorImage: fileID,
       };
 
       axios.post("/api/blogauthor", body, config).then((res) => {
         console.log(res);
         getUpdatedAuthors();
+        setLoading(false);
         alert("Added Successfully !!");
         goBack();
       });
@@ -142,30 +159,39 @@ function BlogAuthor({ allBlogAuthor, getUpdatedAuthors }) {
   };
 
   const deleteBlogAuthor = async (blogAuthor) => {
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
+    if (
+      window.prompt("Enter secret key") ===
+      (`${process.env.SECRET_KEY_ADMIN}` || creds.SECRET_KEY_ADMIN)
+    ) {
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
 
-    if (window.confirm("Are you sure to delete this author")) {
-      await axios
-        .delete(`/api/blogauthor/${blogAuthor._id}`, config)
-        .then((res) => {
-          console.log(res.data);
+      if (window.confirm("Are you sure to delete this author")) {
+        await axios
+          .delete(`/api/blogauthor/${blogAuthor._id}`, config)
+          .then((res) => {
+            console.log(res.data);
 
-          alert("Deleted Successfully !!");
-          getUpdatedAuthors();
-          goBack();
-          return res.data;
-        })
-        .catch((err) => console.log(err));
+            alert("Deleted Successfully !!");
+            getUpdatedAuthors();
+            goBack();
+            return res.data;
+          })
+          .catch((err) => console.log(err));
+      }
+    } else {
+      alert("You are not allowed!!! Contact Admin");
     }
   };
+  const classes = useStyles();
   return (
     <div className="blog-author">
       {showEditForm ? (
         <>
+          {loading && <LinearProgress className={classes.root} />}
           <div className="new-author-container">
             <div className="form-container-top" onClick={() => goBack()}>
               <ArrowBackIcon />
@@ -219,7 +245,7 @@ function BlogAuthor({ allBlogAuthor, getUpdatedAuthors }) {
                     <p>{_ba.description}</p>
                   </div>
 
-                  <Avatar src="" />
+                  <Avatar src={_ba?.image?.filePath} />
                 </div>
                 <div className="button-control">
                   <IconButton

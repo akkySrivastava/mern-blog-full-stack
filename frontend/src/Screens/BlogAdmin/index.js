@@ -34,6 +34,7 @@ function Index() {
   }, []);
 
   console.log(allBlogs);
+  console.log(allBlogAuthor);
 
   const getUpdatedAuthor = () => {
     const config = {

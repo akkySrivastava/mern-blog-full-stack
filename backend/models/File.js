@@ -13,10 +13,6 @@ var FileSchema = new mongoose.Schema({
   },
   size: Number,
   createdAt: Date,
-  createdBy: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-  },
 });
 
 module.exports = mongoose.model("File", FileSchema);

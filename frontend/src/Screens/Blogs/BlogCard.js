@@ -26,7 +26,7 @@ function BlogCard({ isVertical, blog }) {
           <img
             alt=""
             className="blogCard__image"
-            src="https://document-export.canva.com/gfWiI/DAEUregfWiI/99/thumbnail/-jNCT6i61JfpsCt6j_h9mw-0001-16417868815.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAQYCGKMUHWDTJW6UD%2F20210701%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20210701T114550Z&X-Amz-Expires=29226&X-Amz-Signature=4a77185b8e8b3655522e7ce41b9f32bcb93758de6f597e8431ca86e20445a978&X-Amz-SignedHeaders=host&response-expires=Thu%2C%2001%20Jul%202021%2019%3A52%3A56%20GMT"
+            src={blog?.cardImage?.filePath}
           ></img>
           <div className="blogCard__body">
             <h3 className="blogCard__title">{blog?.blogTitle}</h3>
@@ -43,7 +43,7 @@ function BlogCard({ isVertical, blog }) {
         <div className="blogCard blogCard__horizontal">
           <img
             className="blogCard__image"
-            src="https://document-export.canva.com/gfWiI/DAEUregfWiI/99/thumbnail/-jNCT6i61JfpsCt6j_h9mw-0001-16417868815.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAQYCGKMUHWDTJW6UD%2F20210701%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20210701T114550Z&X-Amz-Expires=29226&X-Amz-Signature=4a77185b8e8b3655522e7ce41b9f32bcb93758de6f597e8431ca86e20445a978&X-Amz-SignedHeaders=host&response-expires=Thu%2C%2001%20Jul%202021%2019%3A52%3A56%20GMT"
+            src={blog?.cardImage?.filePath}
             alt=""
           ></img>
           <div className="blogCard__body">

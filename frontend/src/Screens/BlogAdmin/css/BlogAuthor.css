@@ -1,5 +1,6 @@
 .blog-author {
   display: flex;
+  flex-direction: column;
   width: 100%;
   padding: 10px calc(70 * var(--vp)) 10px calc(70 * var(--vp));
 }

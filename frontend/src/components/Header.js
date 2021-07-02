@@ -4,6 +4,11 @@ import { useHistory } from "react-router-dom";
 import MenuRoundedIcon from "@material-ui/icons/MenuRounded";
 import CloseIcon from "@material-ui/icons/CloseRounded";
 import logo from "./img/logo.png";
+import facebook from "./img/facebook.png";
+import youtube from "./img/youtube.png";
+import github from "./img/github.png";
+import instagram from "./img/instgram.png";
+import twitter from "./img/twitter.png";
 
 function Index() {
   const header = useRef(null);
@@ -39,9 +44,41 @@ function Index() {
     },
   ];
 
+  const socialLinks = [
+    {
+      id: 1,
+      icon: instagram,
+      link: "https://instgram.com/code_with_akky",
+    },
+    {
+      id: 2,
+      icon: facebook,
+      link: "https://facebook.com/akkyProjects",
+    },
+    {
+      id: 3,
+      icon: youtube,
+      link: "https://youtube.com/c/CodeWithAkky",
+    },
+    {
+      id: 4,
+      icon: github,
+      link: "https://github.com/akkySrivastava",
+    },
+    {
+      id: 5,
+      icon: twitter,
+      link: "https://twitter.com/akky_im",
+    },
+  ];
+
   const handlelinks = (link) => {
     setIsOpenNav(false);
     history.push(link);
+  };
+
+  const handleSocialLinks = (link) => {
+    window.open(link, "_blank", "noopenner noreferrer");
   };
 
   const SideNav = () => {
@@ -71,6 +108,18 @@ function Index() {
               <p>{data.text}</p>
             </div>
           ))}
+          <div className="side-nav-socials">
+            {socialLinks.map((data) => (
+              <div
+                onClick={() => handleSocialLinks(data.link)}
+                id={data.id}
+                className="side-nav-social"
+              >
+                <img src={data.icon} alt="social-logo" />
+              </div>
+            ))}
+          </div>
+
           {/* <div className="side-nav">
             <p>Home</p>
           </div>

@@ -6,6 +6,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import "./css/BlogCategory.css";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import axios from "axios";
+import creds from "../../SecretKey.json";
 
 function BlogCategory({ getUpdatedCategory, allBlogCategory }) {
   const [showCategory, setShowCategory] = useState(false);
@@ -81,23 +82,30 @@ function BlogCategory({ getUpdatedCategory, allBlogCategory }) {
   };
 
   const deleteBlogCategory = (blogCategory) => {
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-    if (window.confirm("Are you sure to delete this category")) {
-      axios
-        .delete(`/api/blogcategory/${blogCategory._id}`, config)
-        .then((res) => {
-          console.log(res.data);
+    if (
+      window.prompt("Enter secret key") ===
+      (`${process.env.SECRET_KEY_ADMIN}` || creds.SECRET_KEY_ADMIN)
+    ) {
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+      if (window.confirm("Are you sure to delete this category")) {
+        axios
+          .delete(`/api/blogcategory/${blogCategory._id}`, config)
+          .then((res) => {
+            console.log(res.data);
 
-          getUpdatedCategory();
-          alert("Deleted Successfully !!");
-          goBack();
-          return res.data;
-        })
-        .catch((err) => console.log(err));
+            getUpdatedCategory();
+            alert("Deleted Successfully !!");
+            goBack();
+            return res.data;
+          })
+          .catch((err) => console.log(err));
+      }
+    } else {
+      alert("You are not allowed!!! Contact Admin");
     }
   };
 
