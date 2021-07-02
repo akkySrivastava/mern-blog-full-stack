@@ -28,9 +28,8 @@
     "javascript-time-ago": "^2.3.7",
     "mongoose": "^5.13.0",
     "multer": "^1.4.2",
+    "nodemon": "^2.0.9",
     "react-helmet": "^6.1.0"
   },
-  "devDependencies": {
-    "nodemon": "^2.0.9"
-  }
+  "devDependencies": {}
 }
